@@ -1,21 +1,15 @@
 # ZenMusic
 
-A simple, free live-radio player. Discover stations from the community-maintained [Radio Browser](https://www.radio-browser.info/), search by name or genre, and save favorites in your browser. No account, analytics, cookies, or tracking scripts are used by ZenMusic.
+A web music player inspired by third-party music clients. Search YouTube videos through an Invidious instance, play them in the official YouTube embedded player, and save favorites locally. ZenMusic does not host or extract audio and does not include its own analytics or advertising trackers.
 
 ## Run locally
 
-Requires Node.js 18 or newer.
-
-```sh
-npm run dev
-```
-
-Open http://localhost:3000. Internet access to Radio Browser and individual station streams is required.
+Requires Node.js 18 or newer. Run `npm run dev` and open http://localhost:3000. The server must be able to reach the configured Invidious instance, and the browser must be able to reach YouTube.
 
 ## Deploy to Vercel
 
-Import this repository into Vercel and deploy with the default settings. `api/stations.js` is a serverless function that fetches the public directory; no API key or environment variables are required. The frontend and API share the same origin. Only HTTPS streams are listed to avoid mixed-content errors. Stream availability depends on the station and browser codec support.
+Import the repository and deploy with the default settings. `/api/stations` is a Vercel serverless search endpoint. Optionally set `INVIDIOUS_URL` to the HTTPS origin of a trusted Invidious instance; the default is `https://yewtu.be`. Public instances can be unavailable, rate-limited, or blocked by YouTube, so a dependable instance is needed for reliable search. No API key is required.
 
-## Privacy and availability
+## Limitations and privacy
 
-ZenMusic does not include analytics or advertising trackers. Favorites are stored in localStorage on your device. The server contacts Radio Browser for directory data without forwarding user headers; the Vercel hosting platform may keep operational logs. When you play a station, your browser connects directly to that station's stream provider, which can see your IP address and may have its own privacy policy or ads. This is a live radio player, not an on-demand catalog; ZenMusic does not host music and cannot guarantee availability or rights of third-party broadcasts.
+Unlike native BitChord, InnerTune or ViMusic, playback uses the visible official YouTube embed: YouTube can show ads, restrict embedding, or make tracks unavailable, and background playback depends on the browser/device. This is not an audio extraction client. Search results are video results and can include non-music content. Favorites are stored in browser localStorage. Searches go through the configured Invidious instance without forwarding client headers, though Vercel may retain operational logs. Thumbnails and playback connect to Google/YouTube, which can receive the listener's IP and process data under its own policies. No claim of complete anonymity or tracker-free third-party services is made.
